@@ -1,0 +1,13 @@
+{
+  "package": "de.niecklikescode.turing.api.mixin",
+  "refmap": "mixins.turing.refmap.json",
+  "minVersion": "0.7",
+  "compatibilityLevel": "JAVA_8",
+  "client": [
+    "MixinEntityPlayerSP",
+    "MixinGuiMainMenu",
+    "MixinMinecraft",
+    "MixinNetworkManager",
+    "MixinPlayerControllerMP"
+  ]
+}

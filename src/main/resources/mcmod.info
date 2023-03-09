@@ -1,0 +1,18 @@
+[
+  {
+	"modid": "turing",
+	"name": "Turing",
+	"description": "Just another open-source ghost client",
+	"version": "0.1.0",
+	"mcversion": "1.8.9",
+	"url": "",
+	"updateUrl": "",
+	"authorList": [
+	  "NieckLikesCode"
+	],
+	"credits": "",
+	"logoFile": "https://cdn-icons-png.flaticon.com/512/8226/8226113.png",
+	"screenshots": [],
+	"dependencies": []
+  }
+]
