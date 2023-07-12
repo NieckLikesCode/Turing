@@ -1,3 +1,7 @@
+@file:Suppress("SpellCheckingInspection")
+
+import org.gradle.internal.os.OperatingSystem
+
 plugins {
     idea
     java
@@ -69,7 +73,6 @@ dependencies {
 
     // If you don't want to log in with your real minecraft account, remove this line
     runtimeOnly("me.djtheredstoner:DevAuth-forge-legacy:1.1.0")
-
 }
 
 // Tasks:

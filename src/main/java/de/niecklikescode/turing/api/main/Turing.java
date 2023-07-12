@@ -7,7 +7,7 @@ import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import org.apache.logging.log4j.Logger;
 
-@Mod(modid = "turing", version = "0.1.0", name = "Turing")
+@Mod(modid = "turing", version = "0.1.1", name = "Turing")
 public class Turing {
 
     @Getter

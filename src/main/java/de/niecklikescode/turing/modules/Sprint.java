@@ -5,9 +5,8 @@ import de.niecklikescode.turing.api.modules.Info;
 import de.niecklikescode.turing.api.modules.Module;
 import net.minecraft.potion.Potion;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import org.lwjgl.input.Keyboard;
 
-@Info(category = Module.Category.MOVEMENT, keyBind = Keyboard.KEY_V, description = "Makes you sprint whenever possible")
+@Info(category = Module.Category.MOVEMENT, description = "Makes you sprint whenever possible")
 public class Sprint extends Module {
 
     @SubscribeEvent

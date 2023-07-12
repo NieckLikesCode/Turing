@@ -2,7 +2,6 @@ package de.niecklikescode.turing.modules;
 
 import de.niecklikescode.turing.api.events.MouseClickEvent;
 import de.niecklikescode.turing.api.events.TickEvent;
-import de.niecklikescode.turing.api.main.Turing;
 import de.niecklikescode.turing.api.modules.Info;
 import de.niecklikescode.turing.api.modules.Module;
 import net.minecraft.entity.Entity;
@@ -53,7 +52,7 @@ public class Criticals extends Module {
             // Calculating the next y coordinate using Minecrafts gravity constant (can be found in EntityLivingBase:moveEntityWithHeading)
             double nextY = origin + (((origin - prevY) - 0.08) * 0.9800000190734863);
 
-            // The player will move down in the next tick
+            // If true the player will move down in the next tick
             if ((nextY - origin) < 0)
                 return true;
 
@@ -64,6 +63,8 @@ public class Criticals extends Module {
         // No downward motion will happen in the next X ticks
         return false;
     }
+
+    private final int MAX_TICKS = 20;
 
     @SubscribeEvent
     public void onTick(TickEvent event) {
@@ -97,14 +98,11 @@ public class Criticals extends Module {
                 && !getLocalPlayer().isPotionActive(Potion.blindness)
                 && getLocalPlayer().ridingEntity == null;
 
-        if (!willCrit && extrapolateFutureTicks(10)) {
-            Turing.getLogger().info("Missed critical hit!");
+        if (!willCrit && extrapolateFutureTicks(MAX_TICKS) && !awaitHit) {
             event.setCanceled(true);
-
             awaitHit = true;
         }
 
     }
-
 
 }

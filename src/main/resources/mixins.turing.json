@@ -8,6 +8,7 @@
     "MixinGuiMainMenu",
     "MixinMinecraft",
     "MixinNetworkManager",
-    "MixinPlayerControllerMP"
+    "MixinPlayerControllerMP",
+    "MixinNetHandler"
   ]
 }

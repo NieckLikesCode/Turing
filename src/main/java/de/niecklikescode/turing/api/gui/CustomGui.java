@@ -9,11 +9,17 @@ import java.util.List;
 
 public class CustomGui extends GuiScreen {
 
-    private List<Element> components = new ArrayList<>();
+    private final List<Element> components = new ArrayList<>();
 
     @Override
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
         super.drawScreen(mouseX, mouseY, partialTicks);
+
+        // Render custom elements
+        components
+                .stream()
+                .filter(Element::isVisible)
+                .forEach(comp -> comp.render(mouseX, mouseY, partialTicks));
     }
 
     @Override
@@ -35,4 +41,9 @@ public class CustomGui extends GuiScreen {
     protected void keyTyped(char typedChar, int keyCode) throws IOException {
         super.keyTyped(typedChar, keyCode);
     }
+
+    protected void addComponent(Element component) {
+        components.add(component);
+    };
+
 }

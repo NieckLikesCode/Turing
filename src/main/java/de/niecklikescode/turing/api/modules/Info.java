@@ -13,7 +13,7 @@ public @interface Info {
     String description();
     int keyBind() default Keyboard.KEY_NONE;
     Module.Category category();
-    int color() default 0xFFFFFF;
+    int color() default -1;
 
     boolean toggleable() default true;
 

@@ -1,9 +1,11 @@
 package de.niecklikescode.turing.api.modules;
 
+import de.niecklikescode.turing.api.utils.RenderUtils;
 import lombok.Getter;
 import lombok.Setter;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
+import net.minecraft.client.multiplayer.WorldClient;
 import net.minecraftforge.common.MinecraftForge;
 
 public class Module {
@@ -16,12 +18,12 @@ public class Module {
         this.description = info.description();
         this.category = info.category();
         this.keyBind = info.keyBind();
-        this.color = info.color();
+        this.color = info.color() == -1 ? RenderUtils.getColorByString(name) : info.color();
 
         this.toggleable = info.toggleable();
     }
 
-    protected final Minecraft MC = Minecraft.getMinecraft();
+    protected final static Minecraft MC = Minecraft.getMinecraft();
 
     @Getter
     private final String name, description;
@@ -37,7 +39,10 @@ public class Module {
     @Getter
     private int keyBind, color;
 
-    private boolean enabled, toggleable;
+    @Getter
+    private boolean enabled;
+    @Getter
+    private final boolean toggleable;
 
     public void enableMod() {}
     public void disableMod() {}
@@ -54,16 +59,18 @@ public class Module {
         enabled = !enabled;
     }
 
-    protected EntityPlayerSP getLocalPlayer() {
+    protected static EntityPlayerSP getLocalPlayer() {
         return MC.thePlayer;
     }
+    protected static WorldClient getWorld() { return MC.theWorld; }
 
     public enum Category {
         COMBAT("Combat"),
         MOVEMENT("Movement"),
         PLAYER("Player"),
         VISUAL("Visual"),
-        HUD("HUD");
+        HUD("HUD"),
+        MISC("MISC");
 
         @Getter
         private final String displayName;

@@ -62,16 +62,6 @@ public class MixinEntityPlayerSP {
 
         MinecraftForge.EVENT_BUS.post(preUpdate);
 
-        localPlayer.posX = preUpdate.getX();
-        localPlayer.posY = preUpdate.getY();
-        localPlayer.posZ = preUpdate.getZ();
-
-        localPlayer.onGround = preUpdate.isOnGround();
-        localPlayer.setSneaking(preUpdate.isSneaking());
-
-        localPlayer.rotationYaw = preUpdate.getYaw();
-        localPlayer.rotationPitch = preUpdate.getPitch();
-
         /*
          * Synchronize client and server sprint-state
          */
@@ -89,7 +79,7 @@ public class MixinEntityPlayerSP {
         /*
          * Synchronize client and server sneak-state
          */
-        boolean isSneaking = localPlayer.isSneaking();
+        boolean isSneaking = preUpdate.isSneaking();
 
         if (isSneaking != this.serverSneakState) {
             if (isSneaking) {
@@ -103,42 +93,42 @@ public class MixinEntityPlayerSP {
 
         if (MINECRAFT.getRenderViewEntity() == localPlayer) {
 
-            double deltaX = localPlayer.posX - this.lastReportedPosX;
-            double deltaY = localPlayer.getEntityBoundingBox().minY - this.lastReportedPosY;
-            double deltaZ = localPlayer.posZ - this.lastReportedPosZ;
+            double deltaX = preUpdate.getX() - this.lastReportedPosX;
+            double deltaY = preUpdate.getY() - this.lastReportedPosY;
+            double deltaZ = preUpdate.getZ() - this.lastReportedPosZ;
 
-            double deltaYaw = localPlayer.rotationYaw - this.lastReportedYaw;
-            double deltaPitch = localPlayer.rotationPitch - this.lastReportedPitch;
+            double deltaYaw = preUpdate.getYaw() - this.lastReportedYaw;
+            double deltaPitch = preUpdate.getPitch() - this.lastReportedPitch;
 
             boolean hasMoved = deltaX * deltaX + deltaY * deltaY + deltaZ * deltaZ > 9.0E-4 || this.positionUpdateTicks >= 20;
             boolean hasRotated = deltaYaw != 0.0 || deltaPitch != 0.0;
 
             if (localPlayer.ridingEntity == null) {
                 if (hasMoved && hasRotated) {
-                    this.sendQueue.addToSendQueue(new C03PacketPlayer.C06PacketPlayerPosLook(localPlayer.posX, localPlayer.getEntityBoundingBox().minY, localPlayer.posZ, localPlayer.rotationYaw, localPlayer.rotationPitch, localPlayer.onGround));
+                    this.sendQueue.addToSendQueue(new C03PacketPlayer.C06PacketPlayerPosLook(preUpdate.getX(), preUpdate.getY(), preUpdate.getZ(), preUpdate.getYaw(), preUpdate.getPitch(), preUpdate.isOnGround()));
                 } else if (hasMoved) {
-                    this.sendQueue.addToSendQueue(new C03PacketPlayer.C04PacketPlayerPosition(localPlayer.posX, localPlayer.getEntityBoundingBox().minY, localPlayer.posZ, localPlayer.onGround));
+                    this.sendQueue.addToSendQueue(new C03PacketPlayer.C04PacketPlayerPosition(preUpdate.getX(), preUpdate.getY(), preUpdate.getZ(), preUpdate.isOnGround()));
                 } else if (hasRotated) {
-                    this.sendQueue.addToSendQueue(new C03PacketPlayer.C05PacketPlayerLook(localPlayer.rotationYaw, localPlayer.rotationPitch, localPlayer.onGround));
+                    this.sendQueue.addToSendQueue(new C03PacketPlayer.C05PacketPlayerLook(preUpdate.getYaw(), preUpdate.getPitch(), preUpdate.isOnGround()));
                 } else {
-                    this.sendQueue.addToSendQueue(new C03PacketPlayer(localPlayer.onGround));
+                    this.sendQueue.addToSendQueue(new C03PacketPlayer(preUpdate.isOnGround()));
                 }
             } else {
-                this.sendQueue.addToSendQueue(new C03PacketPlayer.C06PacketPlayerPosLook(localPlayer.motionX, -999.0, localPlayer.motionZ, localPlayer.rotationYaw, localPlayer.rotationPitch, localPlayer.onGround));
+                this.sendQueue.addToSendQueue(new C03PacketPlayer.C06PacketPlayerPosLook(localPlayer.motionX, -999.0, localPlayer.motionZ, preUpdate.getYaw(), preUpdate.getPitch(), preUpdate.isOnGround()));
                 hasMoved = false;
             }
 
             ++this.positionUpdateTicks;
             if (hasMoved) {
-                this.lastReportedPosX = localPlayer.posX;
-                this.lastReportedPosY = localPlayer.getEntityBoundingBox().minY;
-                this.lastReportedPosZ = localPlayer.posZ;
+                this.lastReportedPosX = preUpdate.getX();
+                this.lastReportedPosY = preUpdate.getY();
+                this.lastReportedPosZ = preUpdate.getZ();
                 this.positionUpdateTicks = 0;
             }
 
             if (hasRotated) {
-                this.lastReportedYaw = localPlayer.rotationYaw;
-                this.lastReportedPitch = localPlayer.rotationPitch;
+                this.lastReportedYaw = preUpdate.getYaw();
+                this.lastReportedPitch = preUpdate.getPitch();
             }
         }
 
