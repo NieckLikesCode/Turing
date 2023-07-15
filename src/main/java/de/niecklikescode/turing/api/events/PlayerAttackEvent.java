@@ -13,4 +13,11 @@ public class PlayerAttackEvent extends Event {
     @Getter
     private Entity target;
 
+    @Getter
+    private EventPhase eventPhase;
+
+    public enum EventPhase {
+        PRE,POST
+    }
+
 }
