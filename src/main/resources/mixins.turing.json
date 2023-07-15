@@ -7,8 +7,9 @@
     "MixinEntityPlayerSP",
     "MixinGuiMainMenu",
     "MixinMinecraft",
+    "MixinNetHandler",
     "MixinNetworkManager",
     "MixinPlayerControllerMP",
-    "MixinNetHandler"
+    "MixinModList"
   ]
 }
